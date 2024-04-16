@@ -1,8 +1,8 @@
 import json
-
 import allure
 import pytest
 import requests
+import data_for_tests as dft
 
 
 class TestOrderCreate:
@@ -32,9 +32,8 @@ class TestOrderCreate:
             "comment": "Хочу кататься!",
             "color": color
         }
-        response = requests.post('https://qa-scooter.praktikum-services.ru/api/v1/orders', data=json.dumps(payload))
-        requests.put('https://qa-scooter.praktikum-services.ru/api/v1/orders/cancel',
-                     data={"track": response.json()["track"]})
+        response = requests.post(dft.URL_SCOOTER + dft.api_create_order, data=json.dumps(payload))
+        requests.put(dft.URL_SCOOTER + dft.api_cancel_order, data={"track": response.json()["track"]})
 
-        assert 201 == response.status_code and 'track' in response.text, \
+        assert 201 == response.status_code and dft.answr_post_create_order_ok in response.text, \
             f'Код ответа - "{response.status_code}", текст ответа - "{response.text}"'

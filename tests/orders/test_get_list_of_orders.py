@@ -1,5 +1,6 @@
 import allure
 import requests
+import data_for_tests as dft
 
 
 class TestGetListOfOrders:
@@ -9,8 +10,7 @@ class TestGetListOfOrders:
     @allure.description('Проверяем, что в теле ответа возвращается список заказов, возвращается правивльные код и '
                         'текст ответа')
     def test_get_list_of_orders(self):
-        response = requests.get('https://qa-scooter.praktikum-services.ru/api/v1/orders')
+        response = requests.get(dft.URL_SCOOTER + dft.api_get_list_of_orders)
 
-        print(response.text)
-        assert 200 == response.status_code and 'orders' in response.text, \
+        assert 200 == response.status_code and dft.answr_get_list_of_orders_ok in response.text, \
             f'Код ответа - "{response.status_code}", текст ответа - "{response.text}"'
